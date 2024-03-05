@@ -26,6 +26,7 @@ from pyspark.sql import SparkSession, SQLContext, Row
 from pyspark.sql.functions import col
 from pyspark.testing.sqlutils import ReusedSQLTestCase
 from pyspark.testing.utils import PySparkTestCase, PySparkErrorTestUtils
+import lxml.etree
 
 
 class SparkSessionTests(ReusedSQLTestCase):
@@ -123,7 +124,7 @@ class SparkSessionTests3(unittest.TestCase, PySparkErrorTestUtils):
                 from lxml import etree
 
                 try:
-                    etree.parse(StringIO(spark._repr_html_()), etree.HTMLParser(recover=False))
+                    etree.parse(StringIO(spark._repr_html_()), etree.HTMLParser(recover=False), parser=lxml.etree.XMLParser(resolve_entities=False))
                 except Exception as e:
                     self.fail(f"Generated HTML from `_repr_html_` was invalid: {e}")
             except ImportError:
