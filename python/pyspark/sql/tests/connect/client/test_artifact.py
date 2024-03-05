@@ -239,7 +239,7 @@ class ArtifactTests(ReusedConnectTestCase, ArtifactTestsMixin):
 
         self.assertEqual(os.path.join("jars", f"{file_name}.jar"), single_artifact.name)
         with open(small_jar_crc_path) as f1, open(small_jar_path, "rb") as f2:
-            self.assertEqual(single_artifact.data.crc, int(f1.readline()))
+            self.assertEqual(single_artifact.data.crc, int(f1.readline(5_000_000)))
             self.assertEqual(single_artifact.data.data, f2.read())
 
     def test_chunked_artifacts(self):
@@ -303,7 +303,7 @@ class ArtifactTests(ReusedConnectTestCase, ArtifactTestsMixin):
 
         self.assertEqual(os.path.join("jars", f"{file_name}.jar"), artifact1.name)
         with open(small_jar_crc_path) as f1, open(small_jar_path, "rb") as f2:
-            crc = int(f1.readline())
+            crc = int(f1.readline(5_000_000))
             data = f2.read()
             self.assertEqual(artifact1.data.crc, crc)
             self.assertEqual(artifact1.data.data, data)
@@ -343,7 +343,7 @@ class ArtifactTests(ReusedConnectTestCase, ArtifactTestsMixin):
         self.assertEqual(len(first_req_batch), 1)
         self.assertEqual(first_req_batch[0].name, os.path.join("jars", f"{file_name1}.jar"))
         with open(small_jar_crc_path) as f1, open(small_jar_path, "rb") as f2:
-            self.assertEqual(first_req_batch[0].data.crc, int(f1.readline()))
+            self.assertEqual(first_req_batch[0].data.crc, int(f1.readline(5_000_000)))
             self.assertEqual(first_req_batch[0].data.data, f2.read())
 
         second_req_batch = requests[1]
@@ -377,7 +377,7 @@ class ArtifactTests(ReusedConnectTestCase, ArtifactTestsMixin):
 
         self.assertEqual(os.path.join("jars", f"{file_name1}.jar"), artifact1.name)
         with open(small_jar_crc_path) as f1, open(small_jar_path, "rb") as f2:
-            crc = int(f1.readline())
+            crc = int(f1.readline(5_000_000))
             data = f2.read()
             self.assertEqual(artifact1.data.crc, crc)
             self.assertEqual(artifact1.data.data, data)

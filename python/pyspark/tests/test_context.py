@@ -116,7 +116,7 @@ class AddFileTests(PySparkTestCase):
         download_path = SparkFiles.get("hello.txt")
         self.assertNotEqual(path, download_path)
         with open(download_path) as test_file:
-            self.assertEqual("Hello World!\n", test_file.readline())
+            self.assertEqual("Hello World!\n", test_file.readline(5_000_000))
 
     def test_add_file_recursively_locally(self):
         path = os.path.join(SPARK_HOME, "python/test_support/hello")
@@ -124,9 +124,9 @@ class AddFileTests(PySparkTestCase):
         download_path = SparkFiles.get("hello")
         self.assertNotEqual(path, download_path)
         with open(download_path + "/hello.txt") as test_file:
-            self.assertEqual("Hello World!\n", test_file.readline())
+            self.assertEqual("Hello World!\n", test_file.readline(5_000_000))
         with open(download_path + "/sub_hello/sub_hello.txt") as test_file:
-            self.assertEqual("Sub Hello World!\n", test_file.readline())
+            self.assertEqual("Sub Hello World!\n", test_file.readline(5_000_000))
 
     def test_add_py_file_locally(self):
         # To ensure that we're actually testing addPyFile's effects, check that
